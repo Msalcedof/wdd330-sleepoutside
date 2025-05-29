@@ -1,4 +1,4 @@
-import ProductData from "./ProductData.mjs";
+import ProductData from "./externalServices.mjs";
 import ProductList from "./productList.mjs";
 
 //team activity 03

@@ -1,6 +1,6 @@
 console.log("Product listing script loaded!");
 
-import ProductData from "./ProductData.mjs";
+import ProductData from "./externalServices.mjs";
 import ProductList from "./productList.mjs";
 import { loadHeaderFooter, getParam } from "./utils.mjs";
 

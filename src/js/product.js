@@ -1,5 +1,5 @@
 import { getParam, setLocalStorage } from "./utils.mjs";
-import ProductData from "./ProductData.mjs";
+import ProductData from "./externalServices.mjs";
 
 const productId = getParam("id"); // Retrieves the product ID from the URL
 const dataSource = new ProductData(); // No category needed, API handles it
