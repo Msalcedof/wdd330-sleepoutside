@@ -12,8 +12,10 @@ export default class CheckoutProcess {
         if (this.form) {
             this.form.addEventListener("submit", (event) => {
                 event.preventDefault();
-                this.validateForm();
-                this.checkout(); // Call checkout after validation
+                
+                if (this.validateForm()) { //  Run validation before proceeding
+                    this.checkout();
+                }
             });
         }
     }
@@ -24,16 +26,15 @@ export default class CheckoutProcess {
         document.querySelector("#subtotal").textContent = `$${subtotal.toFixed(2)}`;
     }
 
+    // Formats cart items for order submission
     packageItems(items) {
-    return items.map(item => ({
-        id: item.Id, // Ensure this matches the expected key
-        name: item.Name,
-        price: item.FinalPrice,
-        quantity: 1 // If you plan to track quantity, adjust accordingly
-    }));
-}
-
-
+        return items.map(item => ({
+            id: item.Id,
+            name: item.Name,
+            price: item.FinalPrice,
+            quantity: 1 // Adjust if tracking item quantity
+        }));
+    }
 
     // Computes and displays tax, shipping, and order total
     calculateTotals() {
@@ -42,7 +43,6 @@ export default class CheckoutProcess {
         let shipping = 10 + (this.cartItems.length > 1 ? (this.cartItems.length - 1) * 2 : 0);
         let orderTotal = subtotal + tax + shipping;
 
-        // Update the order summary section
         document.querySelector("#tax").textContent = `$${tax.toFixed(2)}`;
         document.querySelector("#shipping").textContent = `$${shipping.toFixed(2)}`;
         document.querySelector("#order-total").textContent = `$${orderTotal.toFixed(2)}`;
@@ -54,16 +54,16 @@ export default class CheckoutProcess {
         let allFilled = Array.from(inputs).every(input => input.value.trim() !== "");
 
         if (!allFilled) {
-            alert("Please fill out all required fields.");
-            return;
+            alertMessage("Please fill out all required fields.", true);
+            return false; //  Prevent checkout if validation fails
         }
 
-        // If all fields are filled, proceed to checkout processing
         console.log("Form is valid! Proceeding with checkout...");
+        return true; //  Validation passed
     }
 
     async checkout() {
-    const formData = new FormData(this.form);
+        const formData = new FormData(this.form);
 
         let orderData = {
             orderDate: new Date().toISOString(),
@@ -76,7 +76,7 @@ export default class CheckoutProcess {
             cardNumber: formData.get("cardNumber"),
             expiration: formData.get("expiration"),
             code: formData.get("code"),
-            items: this.packageItems(this.cartItems), // Format cart data
+            items: this.packageItems(this.cartItems),
             orderTotal: document.querySelector("#order-total").textContent.replace("$", ""),
             shipping: document.querySelector("#shipping").textContent.replace("$", ""),
             tax: document.querySelector("#tax").textContent.replace("$", "")
@@ -84,23 +84,23 @@ export default class CheckoutProcess {
 
         try {
             const response = await this.externalServices.checkout(orderData);
+            
             if (response) {
                 console.log("Order successfully processed:", response);
-                alert("Order placed successfully!");
-                localStorage.removeItem("so-cart"); // Clear cart after checkout
-                window.location.href = "confirmation.html"; // Redirect to confirmation page
+                alertMessage("Order placed successfully! Redirecting...", true);
+
+                localStorage.removeItem("so-cart"); //  Clear cart after checkout
+                window.location.href = "success.html"; //  Redirect user to success page
             } else {
-                alert("Failed to process order. Please try again.");
+                throw { name: "checkoutError", message: "Failed to process order. Please try again." };
             }
         } catch (error) {
             console.error("Checkout error:", error);
-            alert("Error submitting order. Please try again.");
+    
+            const errorMessage = error.message ? error.message : "An unexpected error occurred.";
+            
+            // Use `alertMessage()` instead of `alert()`
+            alertMessage(`Error: ${errorMessage}`, true);
         }
     }
-
-
-
-}   
-
-
-
+}

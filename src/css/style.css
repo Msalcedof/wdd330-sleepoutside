@@ -300,3 +300,23 @@ footer {
     width: 100px; /* Adjust as needed */
     height: auto;
 }
+
+.alert {
+    background-color: #ffcccc;
+    color: #990000;
+    padding: 10px;
+    border: 1px solid #990000;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.alert button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #990000;
+}

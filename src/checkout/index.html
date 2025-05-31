@@ -16,42 +16,43 @@
     <header id="main-header"></header>
 
     <main class="divider">
-      <form id="checkout-form">
-        <h2>Checkout</h2>
+        <form id="checkout-form">
+            <h2>Checkout</h2>
 
-        <!-- Customer Name -->
-        <label for="fname">First Name:</label>
-        <input type="text" id="fname" name="fname" required>
+            <!-- Customer Name -->
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" name="fname" required pattern="[A-Za-z]+" title="Only letters allowed">
 
-        <label for="lname">Last Name:</label>
-        <input type="text" id="lname" name="lname" required>
+            <label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lname" required pattern="[A-Za-z]+" title="Only letters allowed">
 
-        <!-- Address -->
-        <label for="street">Street Address:</label>
-        <input type="text" id="street" name="street" required>
+            <!-- Address -->
+            <label for="street">Street Address:</label>
+            <input type="text" id="street" name="street" required>
 
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city" required>
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required pattern="[A-Za-z\s]+" title="Only letters and spaces allowed">
 
-        <label for="state">State:</label>
-        <input type="text" id="state" name="state" required>
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" required pattern="[A-Z]{2}" title="Enter 2-letter state code (e.g., FL)">
 
-        <label for="zip">Zip Code:</label>
-        <input type="text" id="zip" name="zip" required>
+            <label for="zip">Zip Code:</label>
+            <input type="text" id="zip" name="zip" required pattern="\d{5}" title="Enter a 5-digit ZIP code">
 
-        <!-- Payment Details -->
-        <label for="cardNumber">Credit Card Number:</label>
-        <input type="text" id="cardNumber" name="cardNumber" required>
+            <!-- Payment Details -->
+            <label for="cardNumber">Credit Card Number:</label>
+            <input type="text" id="cardNumber" name="cardNumber" required pattern="\d{16}" title="Enter a 16-digit card number">
 
-        <label for="expiration">Expiration Date:</label>
-        <input type="text" id="expiration" name="expiration" placeholder="MM/YY" required>
+            <label for="expiration">Expiration Date:</label>
+            <input type="text" id="expiration" name="expiration" placeholder="MM/YY" required pattern="\d{2}/\d{2}" title="Format: MM/YY">
 
-        <label for="code">Security Code:</label>
-        <input type="text" id="code" name="code" required>
+            <label for="code">Security Code:</label>
+            <input type="text" id="code" name="code" required pattern="\d{3}" title="Enter the 3-digit security code">
 
-        <!-- Checkout Button -->
-        <button type="submit">Complete Purchase</button>
-    </form>
+            <!-- Checkout Button -->
+            <button type="submit">Complete Purchase</button>
+        </form>
+
 
       <div id="cart-list"></div>
       <section class="products">

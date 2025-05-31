@@ -1,4 +1,4 @@
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, alertMessage } from "./utils.mjs"; //  Added the suggested import
 
 function renderCartContents() {
     const cartItems = getLocalStorage("so-cart") || [];
@@ -24,6 +24,7 @@ function cartItemTemplate(item) {
         <p class="cart-card__color">${item.Colors[0].ColorName}</p>
         <p class="cart-card__quantity">Qty: 1</p>
         <p class="cart-card__price">$${item.FinalPrice.toFixed(2)}</p>
+        <button class="add-to-cart-btn" data-id="${item.Id}">Add to Cart</button> <!--  Added a button -->
     </li>`;
 }
 
@@ -35,8 +36,15 @@ function calculateSubtotal(cartItems) {
     document.querySelector("#subtotal").textContent = `$${subtotal.toFixed(2)}`;
 }
 
-// Add event listener for the Checkout button
+// Add feedback when adding items to the cart
 document.addEventListener("DOMContentLoaded", () => {
+    const addToCartButtons = document.querySelectorAll(".add-to-cart-btn");
+    addToCartButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            alertMessage("Item added to cart!", true); // Shows confirmation message
+        });
+    });
+
     const checkoutBtn = document.querySelector("#checkout-btn");
     if (checkoutBtn) {
         checkoutBtn.addEventListener("click", () => {

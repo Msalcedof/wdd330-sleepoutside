@@ -4,19 +4,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const checkout = new CheckoutProcess("checkout-form", "so-cart"); // Initialize CheckoutProcess
     
     // Add submit event listener to validate and process checkout
-    document.querySelector("#checkout-form").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent default submission
+    document.querySelector('#checkoutSubmit').addEventListener('click', (e) => {
+        e.preventDefault(); // Stop default form submission
 
-        // Simple validation check for empty inputs
-        let inputs = document.querySelectorAll("#checkout-form input[required]");
-        let allFilled = Array.from(inputs).every(input => input.value.trim() !== "");
+        const myForm = document.forms[0]; // Get the form
+        const chk_status = myForm.checkValidity(); // Check if all fields pass validation
+        myForm.reportValidity(); // Show validation messages
 
-        if (!allFilled) {
-            alert("Please fill out all required fields.");
-            return;
+        if (chk_status) {
+            myCheckout.checkout(); // Proceed only if the form is valid
         }
-
-        // Proceed with checkout if all fields are filled
-        checkout.checkout();
     });
 });
