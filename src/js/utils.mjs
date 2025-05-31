@@ -82,3 +82,20 @@ export function getParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
 }
+
+export function alertMessage(message, scroll = true) {
+    const alert = document.createElement('div');
+    alert.classList.add('alert'); // Add styling
+
+    // Set the contents with a dismiss button
+    alert.innerHTML = `<span>${message}</span> <button>X</button>`;
+    
+    // Remove alert when user clicks 'X'
+    alert.querySelector('button').addEventListener('click', () => alert.remove());
+
+    // Add the alert to the top of the main section
+    document.querySelector('main').prepend(alert);
+
+    // Scroll to the top if needed
+    if (scroll) window.scrollTo(0, 0);
+}
